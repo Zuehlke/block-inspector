@@ -282,3 +282,5 @@ Contract mined! address: 0x0be1427087970611dc9ba30f617bd5d3e73593c2 transactionH
 
 
 ```
+
+untitled_democontract.incrementCounter({from: eth.accounts[0], gas:3000000});

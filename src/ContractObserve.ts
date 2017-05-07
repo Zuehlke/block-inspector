@@ -7,7 +7,7 @@ export class ContractObserve {
 
     private contractAddress: string;
 
-    public constructor(contractAddress: string){
+    public constructor(contractAddress: string) {
         this.contractAddress = contractAddress;
     }
 
@@ -25,7 +25,8 @@ export class ContractObserve {
                 let tx = web3.eth.getTransaction(txId);
                 if (this.checkRightContract(tx)) {
                     let txReceipt = web3.eth.getTransactionReceipt(txId);
-                    this.checkOutOfGas(tx, txReceipt);
+
+                    this.printInfo(tx, txReceipt);
                 }
             }
         }
@@ -37,17 +38,17 @@ export class ContractObserve {
         return tx.to == this.contractAddress;
     }
 
-    private checkOutOfGas(tx: any, txReceipt: any): void {
+    private printInfo(tx: any, txReceipt: any): void {
         let gas: number = tx.gas;
         let gasUsed: number = txReceipt.gasUsed;
-        if (gas == gasUsed) {
-            let methodSig: string = tx.input;
-            let blockNumber: number = txReceipt.blockNumber;
-            //console.log(methodSig);
-            methodSig = methodSig.substring(0, 10);
-            console.log("Out of Gas! tx Id: " + tx.hash + ", method hash: " + methodSig + ", Block: " + blockNumber);
 
-        }
+
+        let methodSig: string = tx.input;
+        let blockNumber: number = txReceipt.blockNumber;
+        //console.log(methodSig);
+        methodSig = methodSig.substring(0, 10);
+        var outOfGas = gas == gasUsed;
+        console.log("tx Id: " + tx.hash + ", method hash: " + methodSig + ", Block: " + blockNumber + ", gasUsed: " + gasUsed + ", out of gas: " + outOfGas);
     }
 }
 

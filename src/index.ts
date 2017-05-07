@@ -13,7 +13,7 @@ server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
-new ContractObserve.ContractObserve("0x0be1427087970611dc9ba30f617bd5d3e73593c2").observe();
+new ContractObserve.ContractObserve("0x323230accd10982a59c26d74e2abf5424d6a3c2a").observe(); //first contract: 0x0be1427087970611dc9ba30f617bd5d3e73593c2
 
 function onError(error: NodeJS.ErrnoException): void {
   if (error.syscall !== 'listen') throw error;
