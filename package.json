@@ -5,9 +5,9 @@
   "main": "tsconfig.js",
   "scripts": {
     "test": "mocha --reporter spec --compilers ts:ts-node/register 'test/**/*.test.ts'",
-    "build": "tsc && rm -r ./dist/src",
-    "start": "tsc && rm -r ./dist/src && node dist/index.js",
-    "debug": "tsc &&  rm -r ./dist/src && node --inspect dist/index.js"
+    "build": "tsc && rm -rf ./dist/src",
+    "start": "tsc && rm -rf ./dist/src && node dist/index.js",
+    "debug": "tsc &&  rm -rf ./dist/src && node --inspect dist/index.js"
   },
   "keywords": [],
   "author": "",
