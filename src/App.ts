@@ -2,7 +2,6 @@ import * as path from 'path';
 import * as express from 'express';
 import * as logger from 'morgan';
 import * as bodyParser from 'body-parser';
-import HeroRouter from './routes/HeroRouter';
 
 class App {
 
@@ -24,11 +23,10 @@ class App {
         let router = express.Router();
         router.get('/', (req, res, next) => {
             res.json({
-                message: 'Hello World! Request /api/v1/heroes'
+                message: 'Hello World!'
             });
         });
         this.express.use('/', router);
-        this.express.use('/api/v1/heroes', HeroRouter);
     }
 }
 
