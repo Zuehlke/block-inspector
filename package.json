@@ -5,8 +5,9 @@
   "main": "tsconfig.js",
   "scripts": {
     "test": "mocha --reporter spec --compilers ts:ts-node/register 'test/**/*.test.ts'",
-    "start": "gulp scripts && node dist/index.js",
-    "debug": "gulp scripts && node --inspect dist/index.js"
+    "build": "tsc && rm -r ./dist/src",
+    "start": "tsc && rm -r ./dist/src && node dist/index.js",
+    "debug": "tsc &&  rm -r ./dist/src && node --inspect dist/index.js"
   },
   "keywords": [],
   "author": "",
@@ -22,8 +23,6 @@
     "@types/node": "^7.0.14",
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
-    "gulp": "^3.9.1",
-    "gulp-typescript": "^3.1.6",
     "mocha": "^3.3.0",
     "ts-node": "^3.0.2",
     "typescript": "^2.3.1"
