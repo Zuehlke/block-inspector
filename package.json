@@ -4,10 +4,11 @@
   "description": "",
   "main": "tsconfig.js",
   "scripts": {
+    "pretest": "tsc",
     "test": "mocha --reporter spec --compilers ts:ts-node/register 'test/**/*.test.ts'",
-    "build": "tsc && mv ./dist/src/* ./dist && rmdir ./dist/src",
-    "start": "tsc && mv ./dist/src/* ./dist && rmdir ./dist/src && node dist/index.js",
-    "debug": "tsc && mv ./dist/src/* ./dist && rmdir ./dist/src && node --inspect dist/index.js"
+    "posttest": "rm -Rf ./dist/src",
+    "build": "rm -Rf ./dist/src && tsc -p tsconfig-for-debug.json",
+    "start": "tsc -p tsconfig-for-debug.json && rm -Rf ./dist/src && node dist/index.js"
   },
   "keywords": [],
   "author": "",
