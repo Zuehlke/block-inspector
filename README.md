@@ -279,8 +279,18 @@ Contract mined! address: 0x0be1427087970611dc9ba30f617bd5d3e73593c2 transactionH
   uncles: []
 }
 
+```
 
+```js
+
+// calculate the method hash
+web3.sha3("outOfGas()").substr(0,10);
+// -> "0x31fe52e8"
+
+web3.sha3("addEntry(uint256,bytes32)").substr(0,10);
+// -> "0x75a584b0"
 
 ```
+Useful Library: https://github.com/ethereumjs/ethereumjs-abi
 
 untitled_democontract.incrementCounter({from: eth.accounts[0], gas:3000000});
