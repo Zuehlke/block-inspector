@@ -1,10 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var contractInfo = require("../bin/solidity/DemoContract.json");
+const Inspectors = require("./Inspectors");
 var Web3 = require('web3');
 class ContractObserve {
     constructor(contractAddress) {
         this.contractAddress = contractAddress;
+        this.inspectors = [new Inspectors.CommonPropsInsp(),
+            new Inspectors.ContractCreateInsp(),
+            new Inspectors.MethodNameInsp(),
+            new Inspectors.OutOfGasInsp()];
     }
     observe() {
         var web3 = new Web3();
@@ -14,28 +19,19 @@ class ContractObserve {
         let lastBlock = web3.eth.blockNumber;
         for (let i = 0; i <= lastBlock; i++) {
             let block = web3.eth.getBlock(i);
+            let findings = new Map();
             for (let txId of block.transactions) {
                 let tx = web3.eth.getTransaction(txId);
-                if (this.checkRightContract(tx)) {
-                    let txReceipt = web3.eth.getTransactionReceipt(txId);
-                    this.printInfo(tx, txReceipt);
-                }
+                let txReceipt = web3.eth.getTransactionReceipt(txId);
+                this.inspectors.forEach(inspt => { inspt.inspect(tx, txReceipt, findings); });
+                console.log(findings);
             }
         }
         console.log("END ...");
     }
+
     checkRightContract(tx) {
         return tx.to == this.contractAddress;
-    }
-    printInfo(tx, txReceipt) {
-        let gas = tx.gas;
-        let gasUsed = txReceipt.gasUsed;
-        let methodSig = tx.input;
-        let blockNumber = txReceipt.blockNumber;
-        //console.log(methodSig);
-        methodSig = methodSig.substring(0, 10);
-        var outOfGas = gas == gasUsed;
-        console.log("tx Id: " + tx.hash + ", method hash: " + methodSig + ", Block: " + blockNumber + ", gasUsed: " + gasUsed + ", out of gas: " + outOfGas);
     }
 }
 exports.ContractObserve = ContractObserve;

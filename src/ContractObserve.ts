@@ -1,14 +1,19 @@
 var contractInfo = require("../bin/solidity/DemoContract.json");
-
+import * as Inspectors from './Inspectors';
 var Web3 = require('web3');
 
 
 export class ContractObserve {
 
     private contractAddress: string;
+    private inspectors: Array<Inspectors.Inspectable>;
 
     public constructor(contractAddress: string) {
         this.contractAddress = contractAddress;
+        this.inspectors = [new Inspectors.CommonPropsInsp(),
+        new Inspectors.ContractCreateInsp(),
+        new Inspectors.MethodNameInsp(),
+        new Inspectors.OutOfGasInsp()];
     }
 
     public observe(): void {
@@ -20,13 +25,13 @@ export class ContractObserve {
         let lastBlock = web3.eth.blockNumber;
         for (let i = 0; i <= lastBlock; i++) {
             let block = web3.eth.getBlock(i);
+            let findings = new Map<String, Object>();
+
             for (let txId of block.transactions) {
                 let tx = web3.eth.getTransaction(txId);
-                if (this.checkRightContract(tx)) {
-                    let txReceipt = web3.eth.getTransactionReceipt(txId);
-
-                    this.printInfo(tx, txReceipt);
-                }
+                let txReceipt = web3.eth.getTransactionReceipt(txId);
+                this.inspectors.forEach(inspt => { inspt.inspect(tx, txReceipt, findings) });
+                console.log(findings);
             }
         }
 
@@ -35,19 +40,6 @@ export class ContractObserve {
 
     private checkRightContract(tx: any): boolean {
         return tx.to == this.contractAddress;
-    }
-
-    private printInfo(tx: any, txReceipt: any): void {
-        let gas: number = tx.gas;
-        let gasUsed: number = txReceipt.gasUsed;
-
-
-        let methodSig: string = tx.input;
-        let blockNumber: number = txReceipt.blockNumber;
-        //console.log(methodSig);
-        methodSig = methodSig.substring(0, 10);
-        var outOfGas = gas == gasUsed;
-        console.log("tx Id: " + tx.hash + ", method hash: " + methodSig + ", Block: " + blockNumber + ", gasUsed: " + gasUsed + ", out of gas: " + outOfGas);
     }
 }
 
