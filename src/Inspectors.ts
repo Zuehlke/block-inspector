@@ -5,6 +5,7 @@ export interface Inspectable {
 }
 
 export class CommonPropsInsp implements Inspectable {
+
     inspect(tx: any, txr: any, findings: Map<String, Object>) {
         findings.set("txHash", tx.hash);
         findings.set("blockNumber", txr.blockNumber);
@@ -31,8 +32,11 @@ export class ContractCreateInsp implements Inspectable {
 }
 
 export class MethodNameInsp implements Inspectable {
+
     inspect(tx: any, txr: any, findings: Map<String, Object>) {
-        findings.set("methoSignature", tx.input.substring(0, 10));
+        findings.set("methodSig", tx.input.substring(0, 10));
+        findings.set("methodName", "tbd");
+        findings.set("methodParam", tx.input.substring(10));
     }
 
 }
