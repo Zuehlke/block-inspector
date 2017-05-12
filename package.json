@@ -31,6 +31,7 @@
   "dependencies": {
     "abi-decoder": "^1.0.8",
     "body-parser": "^1.17.1",
+    "command-line-args": "^4.0.4",
     "debug": "^2.6.6",
     "express": "^4.15.2",
     "fs": "0.0.1-security",
