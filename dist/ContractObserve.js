@@ -9,7 +9,6 @@ class ContractObserve {
         this.inspectors = [new Inspectors.CommonPropsInsp(),
             new Inspectors.ContractCreateInsp(),
             new Inspectors.MethodNameInsp("../bin/solidity/DemoContract.abi"),
-            //new Inspectors.MethodNameInsp("/Users/kasimir/Documents/camp-blockchain/solidity-contract-observer/test/resources/DemoContract.abi"),
             new Inspectors.MethodSignatureInsp(),
             new Inspectors.OutOfGasInsp()];
     }
