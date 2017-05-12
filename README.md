@@ -1,12 +1,9 @@
 # Typescript, Node, Express
-Under heave construction...
+**...Under heave construction...**
 
 ```bash
-gulp scripts 
 npm run test
 npm run start
-
-# Open Browser: localhost:3001
 
 # Debug
 npm run debug

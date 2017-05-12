@@ -59,12 +59,11 @@ export class MethodNameInsp implements Inspectable {
             findings.set("methodName", method.name);
 
             for (let i = 0; i < method.params.length; i++) {
-                console.log("counter: " + 1);
                 findings.set("paramN" + i, method.params[i].name);
                 findings.set("paramV" + i, method.params[i].value);
                 findings.set("paramT" + i, method.params[i].type);
             }
-        }else{
+        } else {
             findings.set("methodName", "Method Hash not found in the ABI!")
         }
     }
