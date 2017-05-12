@@ -7,13 +7,12 @@ npm run start
 
 # Debug
 npm run debug
-# Open Browser: <get URL from console output> and http://localhost:3001/
 ```
 
 https://nodejs.org/api/debugger.html
 
 
-# Node infos
+# Some Transaction dumps
 
 ```json
 # contract deploy

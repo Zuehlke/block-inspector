@@ -4,21 +4,22 @@ var contractInfo = require("../bin/solidity/DemoContract.json");
 const Inspectors = require("./Inspectors");
 var Web3 = require('web3');
 class ContractObserve {
-    constructor(contractAddress) {
-        this.contractAddress = contractAddress;
+    constructor(configuration) {
+        this.contractAddress = configuration.address;
+        this.rpcUrl = configuration.rpcUrl;
+        this.blockToStart = configuration.blockToStart;
         this.inspectors = [new Inspectors.CommonPropsInsp(),
             new Inspectors.ContractCreateInsp(),
-            new Inspectors.MethodNameInsp("../bin/solidity/DemoContract.abi"),
+            new Inspectors.MethodNameInsp(configuration.abiPath),
             new Inspectors.MethodSignatureInsp(),
             new Inspectors.OutOfGasInsp()];
     }
-    observe() {
+    startScanning() {
         var web3 = new Web3();
-        web3.setProvider(new web3.providers.HttpProvider('http://localhost:8545/'));
-        web3.eth.defaultAccount = web3.eth.accounts[0];
-        console.log("START. Observing contract: ");
+        web3.setProvider(new web3.providers.HttpProvider(this.rpcUrl));
+        //web3.eth.defaultAccount = web3.eth.accounts[0];
         let lastBlock = web3.eth.blockNumber;
-        for (let i = 615; i <= lastBlock; i++) {
+        for (let i = this.blockToStart; i <= lastBlock; i++) {
             let block = web3.eth.getBlock(i);
             let findings = new Map();
             for (let txId of block.transactions) {
@@ -39,5 +40,4 @@ class ContractObserve {
 }
 exports.ContractObserve = ContractObserve;
 exports.default = ContractObserve;
-//export default new ContractObserve("0x0be1427087970611dc9ba30f617bd5d3e73593c2"); 
 //# sourceMappingURL=ContractObserve.js.map
