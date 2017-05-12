@@ -294,3 +294,6 @@ web3.sha3("addEntry(uint256,bytes32)").substr(0,10);
 Useful Library: https://github.com/ethereumjs/ethereumjs-abi
 
 untitled_democontract.incrementCounter({from: eth.accounts[0], gas:3000000});
+
+
+Z-Chain:  0xd32d3523b06bdb0741ef83d9efa8a9ecb082551e,   blockNumber: 615, 

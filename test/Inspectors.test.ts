@@ -6,6 +6,8 @@ var deployContractCall = require("./resources/deploy-contract.json");
 var addEntryCall = require("./resources/add-entry.json");
 
 const expect = chai.expect;
+//let abiPath = "/Users/kasimir/Documents/camp-blockchain/solidity-contract-observer/test/resources/DemoContract.abi";
+let abiPath = "./test/resources/DemoContract.abi";
 
 describe('Inspectors tests', () => {
 
@@ -45,22 +47,44 @@ describe('Inspectors tests', () => {
   });
 
   it('Method Call. With Param', () => {
-    let insp: Inspectors.MethodNameInsp = new Inspectors.MethodNameInsp();
+    let insp: Inspectors.MethodNameInsp = new Inspectors.MethodNameInsp(abiPath);
     let findings = new Map<String, Object>();
 
     insp.inspect(addEntryCall.tx, addEntryCall.txr, findings);
-    expect(findings.get("methodSig")).to.equal("0x75a584b0");
-    expect(findings.get("methodName")).to.equal("tbd");
-    expect(findings.get("methodParam")).to.equal("00000000000000000000000000000000000000000000000000000000000000016f6b000000000000000000000000000000000000000000000000000000000000");
+    expect(findings.get("methodName")).to.equal("addEntry");
+
+    expect(findings.get("paramN0")).to.equal("key");
+    expect(findings.get("paramV0")).to.equal("1");
+    expect(findings.get("paramT0")).to.equal("uint256");
+
+    expect(findings.get("paramN1")).to.equal("data");
+    expect(findings.get("paramV1")).to.equal("0x6f6b000000000000000000000000000000000000000000000000000000000000");
+    expect(findings.get("paramT1")).to.equal("bytes32");
   });
 
-    it('Method Call. No Param', () => {
-    let insp: Inspectors.MethodNameInsp = new Inspectors.MethodNameInsp();
+  it('Method Call. With Param. But wrong ABI', () => {
+    let insp: Inspectors.MethodNameInsp = new Inspectors.MethodNameInsp(abiPath);
+    let findings = new Map<String, Object>();
+
+    //modify the input. So that the method signature doesn't match anymore
+    addEntryCall.tx.input = "0xffa584b000000000000000000000000000000000000000000000000000000000000000016f6b000000000000000000000000000000000000000000000000000000000000"
+    insp.inspect(addEntryCall.tx, addEntryCall.txr, findings);
+    expect(findings.get("methodName")).to.equal("Method Hash not found in the ABI!");
+  });
+
+  it('Method Call. No Param1', () => {
+    let insp: Inspectors.MethodNameInsp = new Inspectors.MethodNameInsp(abiPath);
+    let findings = new Map<String, Object>();
+
+    insp.inspect(outOfGasCall.tx, outOfGasCall.txr, findings);
+    expect(findings.get("methodName")).to.equal("outOfGas");
+  });
+
+  it('Method Call. No Param2', () => {
+    let insp: Inspectors.MethodSignatureInsp = new Inspectors.MethodSignatureInsp();
     let findings = new Map<String, Object>();
 
     insp.inspect(outOfGasCall.tx, outOfGasCall.txr, findings);
     expect(findings.get("methodSig")).to.equal("0x31fe52e8");
-    expect(findings.get("methodName")).to.equal("tbd");
-    expect(findings.get("methodParam")).to.equal("");
   });
 });

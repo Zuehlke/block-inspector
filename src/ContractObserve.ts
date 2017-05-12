@@ -12,7 +12,8 @@ export class ContractObserve {
         this.contractAddress = contractAddress;
         this.inspectors = [new Inspectors.CommonPropsInsp(),
         new Inspectors.ContractCreateInsp(),
-        new Inspectors.MethodNameInsp(),
+        new Inspectors.MethodNameInsp("../bin/solidity/DemoContract.abi"),        
+        new Inspectors.MethodSignatureInsp(),
         new Inspectors.OutOfGasInsp()];
     }
 
@@ -23,7 +24,7 @@ export class ContractObserve {
 
         console.log("START. Observing contract: ");
         let lastBlock = web3.eth.blockNumber;
-        for (let i = 0; i <= lastBlock; i++) {
+        for (let i = 615; i <= lastBlock; i++) {
             let block = web3.eth.getBlock(i);
             let findings = new Map<String, Object>();
 
@@ -31,11 +32,15 @@ export class ContractObserve {
                 let tx = web3.eth.getTransaction(txId);
                 let txReceipt = web3.eth.getTransactionReceipt(txId);
                 this.inspectors.forEach(inspt => { inspt.inspect(tx, txReceipt, findings) });
-                console.log(findings);
+                this.printOut(findings);
             }
         }
 
         console.log("END ...");
+    }
+
+    private printOut(findings: any){
+        console.log(findings);
     }
 
     private checkRightContract(tx: any): boolean {
