@@ -1,4 +1,4 @@
-const abiDecoder = require('abi-decoder'); // NodeJS 
+const abiDecoder = require('abi-decoder');
 let fs = require('fs');
 
 export interface Inspectable {

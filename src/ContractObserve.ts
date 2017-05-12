@@ -17,7 +17,7 @@ export class ContractObserve {
         this.blockToStart = configuration.blockToStart;
         this.inspectors = [new Inspectors.CommonPropsInsp(),
         new Inspectors.ContractCreateInsp(),
-        new Inspectors.MethodNameInsp(configuration.abiPath), //"../bin/solidity/DemoContract.abi"
+        new Inspectors.MethodNameInsp(configuration.abiPath),
         new Inspectors.MethodSignatureInsp(),
         new Inspectors.OutOfGasInsp()];
     }

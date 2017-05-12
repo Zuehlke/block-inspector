@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const abiDecoder = require('abi-decoder'); // NodeJS 
+const abiDecoder = require('abi-decoder');
 let fs = require('fs');
 class CommonPropsInsp {
     inspect(tx, txr, findings) {
