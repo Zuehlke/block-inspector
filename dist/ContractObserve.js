@@ -15,21 +15,28 @@ class ContractObserve {
             new Inspectors.OutOfGasInsp()];
     }
     startScanning() {
-        var web3 = new Web3();
-        web3.setProvider(new web3.providers.HttpProvider(this.rpcUrl));
-        //web3.eth.defaultAccount = web3.eth.accounts[0];
-        let lastBlock = web3.eth.blockNumber;
-        for (let i = this.blockToStart; i <= lastBlock; i++) {
-            let block = web3.eth.getBlock(i);
-            let findings = new Map();
-            for (let txId of block.transactions) {
-                let tx = web3.eth.getTransaction(txId);
-                let txReceipt = web3.eth.getTransactionReceipt(txId);
-                this.inspectors.forEach(inspt => { inspt.inspect(tx, txReceipt, findings); });
-                this.printOut(findings);
-            }
+        this.web3 = new Web3();
+        this.web3.setProvider(new this.web3.providers.HttpProvider(this.rpcUrl));
+        let lastBlock = this.web3.eth.blockNumber;
+        this.web3.eth.filter('latest', (e, r) => {
+            //result is the block hash
+            let block = this.web3.eth.getBlock(r); //getBlock works with the block hash
+            this.inspectByBlock(block);
+        });
+        for (let blockNumber = this.blockToStart; blockNumber <= lastBlock; blockNumber++) {
+            let block = this.web3.eth.getBlock(blockNumber); //getBlock works with the block number
+            this.inspectByBlock(block);
         }
         console.log("END ...");
+    }
+    inspectByBlock(block) {
+        let findings = new Map();
+        for (let txId of block.transactions) {
+            let tx = this.web3.eth.getTransaction(txId);
+            let txReceipt = this.web3.eth.getTransactionReceipt(txId);
+            this.inspectors.forEach(inspt => { inspt.inspect(tx, txReceipt, findings); });
+            this.printOut(findings);
+        }
     }
     printOut(findings) {
         console.log(findings);
