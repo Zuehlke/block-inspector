@@ -7,7 +7,8 @@ A command line tool for:
 * Disassembling the method names and parameters
 In real time.. 
 
-**...Under heavy construction...**
+
+![Overview](./docs/block-inspector-light.jpg)
 
 ## Installation
 - NodeJS > v6.10

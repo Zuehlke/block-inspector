@@ -2,7 +2,7 @@
   "name": "typescript1",
   "version": "1.0.0",
   "description": "",
-  "main": "tsconfig.js",
+  "main": "tsconfig.json",
   "scripts": {
     "pretest": "tsc",
     "test": "mocha --reporter spec --compilers ts:ts-node/register 'test/**/*.test.ts'",
