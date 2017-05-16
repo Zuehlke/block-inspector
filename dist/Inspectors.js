@@ -44,9 +44,6 @@ class MethodNameInsp {
         this.methodIdMap = abiDecoder.getMethodIDs();
     }
     inspect(tx, txr, findings) {
-        if (!this.checkRightContract(txr)) {
-            return; //Address does not match
-        }
         var method = abiDecoder.decodeMethod(tx.input);
         if (!method) {
             findings.set("methodName", "Method Hash not found in the ABI!");
@@ -58,17 +55,6 @@ class MethodNameInsp {
             findings.set("paramV" + i, method.params[i].value);
             findings.set("paramT" + i, method.params[i].type);
         }
-    }
-    checkRightContract(txr) {
-        let address;
-        if (txr.to) {
-            address = txr.to;
-        }
-        else {
-            //Detect create contract Transaction. Create contract TX 'to' is null but 'contractAddress' is set in the TransactionReceipt
-            address = txr.contractAddress;
-        }
-        return address == this.address;
     }
 }
 exports.MethodNameInsp = MethodNameInsp;
