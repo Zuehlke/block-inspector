@@ -8,8 +8,11 @@ export interface Inspectable {
 export class CommonPropsInsp implements Inspectable {
 
     inspect(tx: any, txr: any, findings: Map<String, Object>) {
-        findings.set("txHash", tx.hash);
+        findings.set("hash", tx.hash);
         findings.set("blockNumber", txr.blockNumber);
+        findings.set("from", tx.from);
+        findings.set("to", tx.to);
+        findings.set("value", tx.value);
     }
 }
 
@@ -22,6 +25,7 @@ export class OutOfGasInsp implements Inspectable {
 
         findings.set("outOfGas", outOfGas);
         findings.set("gasUsed", gasUsed);
+        findings.set("gas", gas);
     }
 }
 
@@ -41,9 +45,12 @@ export class MethodSignatureInsp implements Inspectable {
 
 export class MethodNameInsp implements Inspectable {
 
-    methodIdMap: Map<String, any>;
+    private methodIdMap: Map<String, any>;
+    private address: String;
 
-    constructor(abiPath: String) {
+    constructor(abiPath: String, address: String) {
+        this.address = address;
+
         let fileAbi = fs.readFileSync(abiPath);
         let abiObj = JSON.parse(fileAbi);
 
@@ -54,17 +61,17 @@ export class MethodNameInsp implements Inspectable {
     inspect(tx: any, txr: any, findings: Map<String, Object>) {
 
         var method = abiDecoder.decodeMethod(tx.input);
+        if (!method) {
+            findings.set("methodName", "Method Hash not found in the ABI!");
+            return;
+        }
 
-        if (method) {
-            findings.set("methodName", method.name);
+        findings.set("methodName", method.name);
 
-            for (let i = 0; i < method.params.length; i++) {
-                findings.set("paramN" + i, method.params[i].name);
-                findings.set("paramV" + i, method.params[i].value);
-                findings.set("paramT" + i, method.params[i].type);
-            }
-        } else {
-            findings.set("methodName", "Method Hash not found in the ABI!")
+        for (let i = 0; i < method.params.length; i++) {
+            findings.set("paramN" + i, method.params[i].name);
+            findings.set("paramV" + i, method.params[i].value);
+            findings.set("paramT" + i, method.params[i].type);
         }
     }
 }

@@ -1,6 +1,6 @@
-# Block inspector 
+# Block Inspector 
 
-**Work in progress**
+**-- Work in progress --**
 
 A command line tool for:
 * Inspecting all transactions to your Ethereum smart contract

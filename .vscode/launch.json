@@ -14,7 +14,13 @@
                 "${workspaceRoot}/dist/**/*.js"
             ],
             "sourceMaps": true,
-            "preLaunchTask": "build"
+            "preLaunchTask": "build",
+            "args": [
+                "--abiPath",
+                "./bin/solidity/DemoContract.abi", 
+                "--address",
+                "0xd32d3523b06bdb0741ef83d9efa8a9ecb082551e"
+            ]
         }
     ]
 }
