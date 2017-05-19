@@ -6,6 +6,9 @@ contract DemoContract {
     bytes32[] data;
     mapping(uint256 => bytes32) entries;
 
+    event newDataEvent(uint256 key, bytes32 data);
+    event counterIncrementEvent(uint32 counter);
+
     function invalidJump() {
         throw; //
     }
@@ -19,11 +22,13 @@ contract DemoContract {
     function addEntry(uint256 key, bytes32 data) returns (bool _success) {
         entries[key] = data;
         _success = true;
+        newDataEvent(key, data);
     }
 
     function incrementCounter() returns (uint32 _counter) {
         counter++;
         _counter = counter;
+        counterIncrementEvent(_counter);
     }
 
     function getCounter() constant returns (uint32 _counter) {

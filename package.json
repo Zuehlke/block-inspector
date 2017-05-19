@@ -9,8 +9,8 @@
     "posttest": "rm -Rf ./dist/src",
     "build": "rm -Rf ./dist/src && tsc -p tsconfig-for-debug.json",
     "start": "tsc -p tsconfig-for-debug.json && rm -Rf ./dist/src && node dist/index.js",
-    "startWithParam": "tsc -p tsconfig-for-debug.json && rm -Rf ./dist/src && node dist/index.js --abiPath ./bin/solidity/DemoContract.abi --address 0xd32d3523b06bdb0741ef83d9efa8a9ecb082551e"
-    
+    "startWithParam": "tsc -p tsconfig-for-debug.json && rm -Rf ./dist/src && node dist/index.js --abiPath ./bin/solidity/DemoContract.abi --address 0xb57646c814dab47f4ca0bbae7c86468e4c5aa742",
+    "startWithParam2": "tsc -p tsconfig-for-debug.json && rm -Rf ./dist/src && node dist/index.js --abiPath /Users/kasimir/Documents/blockchain/hotel-showcase/bin/contracts/HotelShowCaseProxy.abi --address 0xb57646c814dab47f4ca0bbae7c86468e4c5aa742"
   },
   "keywords": [],
   "author": "",
@@ -31,7 +31,9 @@
     "typescript": "^2.3.1"
   },
   "dependencies": {
+    "@types/bignumber.js": "^4.0.2",
     "abi-decoder": "^1.0.8",
+    "bignumber.js": "^4.0.2",
     "body-parser": "^1.17.1",
     "command-line-args": "^4.0.4",
     "command-line-usage": "^4.0.0",

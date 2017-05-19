@@ -59,13 +59,15 @@ describe('Inspectors tests', () => {
 
     expect(findings.get("methodName")).to.equal("addEntry");
 
-    expect(findings.get("paramN0")).to.equal("key");
-    expect(findings.get("paramV0")).to.equal("1");
-    expect(findings.get("paramT0")).to.equal("uint256");
+    var params = findings.get("params");
 
-    expect(findings.get("paramN1")).to.equal("data");
-    expect(findings.get("paramV1")).to.equal("0x6f6b000000000000000000000000000000000000000000000000000000000000");
-    expect(findings.get("paramT1")).to.equal("bytes32");
+    expect(params[0].name).to.equal("key");
+    expect(params[0].value).to.equal("1");
+    expect(params[0].type).to.equal("uint256");
+
+    expect(params[1].name).to.equal("data");
+    expect(params[1].value).to.equal("0x6f6b000000000000000000000000000000000000000000000000000000000000");
+    expect(params[1].type).to.equal("bytes32");
   });
 
   it('MethodNameInsp. With Param. But wrong ABI', () => {
@@ -84,7 +86,7 @@ describe('Inspectors tests', () => {
 
     insp.inspect(outOfGasCall.tx, outOfGasCall.txr, findings);
     expect(findings.get("methodName")).to.equal("outOfGas");
-    expect(findings.size).to.equal(1);
+    expect(findings.size).to.equal(2);
   });
 
   it('MethodSignatureInsp. Check signature from method name', () => {

@@ -50,11 +50,7 @@ class MethodNameInsp {
             return;
         }
         findings.set("methodName", method.name);
-        for (let i = 0; i < method.params.length; i++) {
-            findings.set("paramN" + i, method.params[i].name);
-            findings.set("paramV" + i, method.params[i].value);
-            findings.set("paramT" + i, method.params[i].type);
-        }
+        findings.set("params", method.params);
     }
 }
 exports.MethodNameInsp = MethodNameInsp;

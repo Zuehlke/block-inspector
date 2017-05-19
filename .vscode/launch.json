@@ -19,7 +19,7 @@
                 "--abiPath",
                 "./bin/solidity/DemoContract.abi", 
                 "--address",
-                "0xd32d3523b06bdb0741ef83d9efa8a9ecb082551e"
+                "0xb57646c814dab47f4ca0bbae7c86468e4c5aa742"
             ]
         }
     ]

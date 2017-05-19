@@ -2,6 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var contractInfo = require("../bin/solidity/DemoContract.json");
 const Inspectors = require("./Inspectors");
+const EventListener = require("./EventListener");
+const OutputWriters = require("./OutputWriters");
 var Web3 = require('web3');
 class ContractObserve {
     constructor(configuration) {
@@ -16,50 +18,38 @@ class ContractObserve {
         else {
             console.log("No abiPath or no address configured. Method name inspection is disabled");
         }
+        this.out = new OutputWriters.TextOutputWriter();
     }
     start() {
         this.web3 = new Web3();
         this.web3.setProvider(new this.web3.providers.HttpProvider(this.configuration.rpcUrl));
-        if (this.configuration.observe) {
-            this.initObserve(this.web3);
-        }
-        if (this.configuration.blockToStart && this.configuration.blockToStart >= 0) {
-            let lastBlock = this.web3.eth.blockNumber;
-            for (let blockNumber = this.configuration.blockToStart.valueOf(); blockNumber <= lastBlock; blockNumber++) {
-                let block = this.web3.eth.getBlock(blockNumber); //getBlock works with the block number
+        this.web3.eth.filter('latest', (error, result) => {
+            if (!error) {
+                //result is the block hash
+                let block = this.web3.eth.getBlock(result); //getBlock works with the block hash
                 this.inspectByBlock(block);
             }
-        }
-        console.log("END ...");
-    }
-    initObserve(web3) {
-        this.web3.eth.filter('latest', (e, r) => {
-            //result is the block hash
-            let block = this.web3.eth.getBlock(r); //getBlock works with the block hash
-            this.inspectByBlock(block);
+            else {
+                console.error(error);
+            }
         });
+        var eventListener = new EventListener.EventListener(this.configuration, this.web3);
+        eventListener.start();
     }
     inspectByBlock(block) {
         let findings = new Map();
+        let counter = 0;
         for (let txId of block.transactions) {
             let tx = this.web3.eth.getTransaction(txId);
             let txReceipt = this.web3.eth.getTransactionReceipt(txId);
-            if (this.inspectAllContracts() || this.checkRightContract(txReceipt)) {
+            if (this.checkRightContract(txReceipt)) {
                 this.inspectors.forEach(inspt => { inspt.inspect(tx, txReceipt, findings); });
                 this.printOut(findings);
             }
         }
     }
     printOut(findings) {
-        console.log(findings);
-    }
-    inspectAllContracts() {
-        if (this.configuration.address) {
-            return false;
-        }
-        else {
-            return true;
-        }
+        this.out.writeTx(findings);
     }
     checkRightContract(txr) {
         let address;
