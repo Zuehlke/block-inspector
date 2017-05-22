@@ -19,13 +19,13 @@ contract DemoContract {
         }
     }
 
-    function addEntry(uint256 key, bytes32 data) returns (bool _success) {
+    function addEntry(uint256 key, bytes32 data) payable returns (bool _success) {
         entries[key] = data;
         _success = true;
         newDataEvent(key, data);
     }
 
-    function incrementCounter() returns (uint32 _counter) {
+    function incrementCounter() payable returns (uint32 _counter) {
         counter++;
         _counter = counter;
         counterIncrementEvent(_counter);
