@@ -33,11 +33,11 @@
   "dependencies": {
     "@types/bignumber.js": "^4.0.2",
     "abi-decoder": "^1.0.8",
-    "bignumber.js": "^4.0.2",
     "body-parser": "^1.17.1",
     "command-line-args": "^4.0.4",
     "command-line-usage": "^4.0.0",
     "debug": "^2.6.6",
+    "ethjs-unit": "^0.1.6",
     "express": "^4.15.2",
     "fs": "0.0.1-security",
     "morgan": "^1.8.1",

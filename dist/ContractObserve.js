@@ -18,7 +18,7 @@ class ContractObserve {
         else {
             console.log("No abiPath or no address configured. Method name inspection is disabled");
         }
-        this.out = new OutputWriters.TextOutputWriter();
+        this.outputWriter = new OutputWriters.TextOutputWriter();
     }
     start() {
         this.web3 = new Web3();
@@ -49,7 +49,7 @@ class ContractObserve {
         }
     }
     printOut(findings) {
-        this.out.writeTx(findings);
+        console.log(this.outputWriter.writeTx(findings));
     }
     checkRightContract(txr) {
         let address;
@@ -57,7 +57,8 @@ class ContractObserve {
             address = txr.to;
         }
         else {
-            //Detect create contract Transaction. Create contract TX 'to' is null but 'contractAddress' is set in the TransactionReceipt
+            // Detect create contract Transaction. 
+            // Create contract TX 'to' is null but 'contractAddress' is set in the TransactionReceipt
             address = txr.contractAddress;
         }
         return address == this.configuration.address;

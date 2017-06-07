@@ -6,7 +6,6 @@ var deployContractCall = require("./resources/deploy-contract.json");
 var addEntryCall = require("./resources/add-entry.json");
 
 const expect = chai.expect;
-//let abiPath = "/Users/kasimir/Documents/camp-blockchain/solidity-contract-observer/test/resources/DemoContract.abi";
 let abiPath = "./test/resources/DemoContract.abi";
 
 describe('Inspectors tests', () => {
@@ -71,12 +70,15 @@ describe('Inspectors tests', () => {
   });
 
   it('MethodNameInsp. With Param. But wrong ABI', () => {
-    let insp: Inspectors.MethodNameInsp = new Inspectors.MethodNameInsp(abiPath, addEntryCall.txr.to);
-    let findings = new Map<String, Object>();
 
+    //addEntryCall gets modified. This produces side effects on other test methods. That's why to clone it
+    let addEntryCallModified = JSON.parse(JSON.stringify(addEntryCall)); 
+    let insp: Inspectors.MethodNameInsp = new Inspectors.MethodNameInsp(abiPath, addEntryCallModified.txr.to);
+    let findings = new Map<String, Object>();
+    
     //modify the input. So that the method signature doesn't match anymore
-    addEntryCall.tx.input = "0xffa584b000000000000000000000000000000000000000000000000000000000000000016f6b000000000000000000000000000000000000000000000000000000000000"
-    insp.inspect(addEntryCall.tx, addEntryCall.txr, findings);
+    addEntryCallModified.tx.input = "0xffa584b000000000000000000000000000000000000000000000000000000000000000016f6b000000000000000000000000000000000000000000000000000000000000"
+    insp.inspect(addEntryCallModified.tx, addEntryCallModified.txr, findings);
     expect(findings.get("methodName")).to.equal("Method Hash not found in the ABI!");
   });
 

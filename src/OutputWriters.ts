@@ -1,27 +1,28 @@
-var BigNumber = require('bignumber.js');
-
+var ethjsUnit = require("ethjs-unit")
 
 export interface OutputWriter {
-    writeTx(findings: Map<String, Object>): void;
-    writeEvent(event: any): void;
+    writeTx(findings: Map<String, Object>): string;
+    writeEvent(event: any): string;
 }
 
 export class TextOutputWriter implements OutputWriter {
 
-    writeTx(findings: Map<String, Object>) {
+    writeTx(findings: Map<String, Object>): string {
         var output = "TRANSACTION: ";
 
         output += "from: " + findings.get("from").toString().substring(0, 6);
-        output += ", Wei: " + new BigNumber(findings.get("value")).toString(4);
+
+        output += ", Ether: " + ethjsUnit.fromWei(findings.get("value"), 'ether');
         output += ", " + findings.get("methodName");
 
         output += "("
         var params = findings.get("params") as Array<any>;
-        for (var i = 0; i < params.length; i++) {
-            // output += ", param[" + i + "]: " + params[i].name + "=" + params[i].value;
-            output += params[i].name + ": " + params[i].value;
-            if (i + 1 < params.length) {
-                output += ", ";
+        if (params) {
+            for (var i = 0; i < params.length; i++) {
+                output += params[i].name + ": " + params[i].value;
+                if (i + 1 < params.length) {
+                    output += ", ";
+                }
             }
         }
         output += ")"
@@ -31,10 +32,10 @@ export class TextOutputWriter implements OutputWriter {
             output += ", OUT OF GAS!"
         }
 
-        console.log(output);
+        return output;
     }
 
-    writeEvent(event: any) {
+    writeEvent(event: any): string {
         var params = "";
         Object.keys(event.args).forEach(key => {
             params += key + ": " + event.args[key] + ", ";
@@ -45,19 +46,19 @@ export class TextOutputWriter implements OutputWriter {
         }
 
         var args = JSON.stringify(event.args);
-        var out = "EVENT: " + event.event + "(" + params + ")";
-        console.log(out);
+        var output = "EVENT: " + event.event + "(" + params + ")";
+
+        return output;
     }
 }
 
 export class JsonOutputWriter implements OutputWriter {
 
-    writeTx(findings: Map<String, Object>) {
-        var mapString = JSON.stringify([...findings]);
-        console.log(mapString);
+    writeTx(findings: Map<String, Object>): string {
+        return JSON.stringify([...findings]);
     }
 
-    writeEvent(event: any) {
-        console.log(JSON.stringify(event));    
+    writeEvent(event: any): string {
+        return JSON.stringify(event);
     }
 }

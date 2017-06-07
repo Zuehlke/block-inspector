@@ -13,7 +13,7 @@
         "to": "0x0be1427087970611dc9ba30f617bd5d3e73593c2",
         "transactionIndex": 0,
         "v": "0x1c",
-        "value": 0
+        "value": 10000000000000000
     },
     "txr": {
         "blockHash": "0x8b8ad5d53f3904eddaf9dc8cc81f2f02e976b8b6b15965564502c1c91ec1be57",

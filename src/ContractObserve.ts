@@ -9,7 +9,7 @@ export class ContractObserve {
 
     private configuration: Configuration.Configuration;
     private inspectors: Array<Inspectors.Inspectable>;
-    private out: OutputWriters.OutputWriter;
+    private outputWriter: OutputWriters.OutputWriter;
     private web3: any;
 
     public constructor(configuration: Configuration.Configuration) {
@@ -26,7 +26,7 @@ export class ContractObserve {
             console.log("No abiPath or no address configured. Method name inspection is disabled");
         }
 
-        this.out = new OutputWriters.TextOutputWriter();
+        this.outputWriter = new OutputWriters.TextOutputWriter();
     }
 
     public start(): void {
@@ -62,7 +62,7 @@ export class ContractObserve {
     }
 
     private printOut(findings: any) {
-        this.out.writeTx(findings);
+        console.log(this.outputWriter.writeTx(findings));
     }
 
     private checkRightContract(txr: any): boolean {
@@ -71,7 +71,8 @@ export class ContractObserve {
         if (txr.to) {
             address = txr.to;
         } else {
-            //Detect create contract Transaction. Create contract TX 'to' is null but 'contractAddress' is set in the TransactionReceipt
+            // Detect create contract Transaction. 
+            // Create contract TX 'to' is null but 'contractAddress' is set in the TransactionReceipt
             address = txr.contractAddress;
         }
 

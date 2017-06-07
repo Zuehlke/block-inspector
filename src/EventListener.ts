@@ -19,7 +19,7 @@ export class EventListener {
 
         this.web3.eth.contract(abiObj).at(this.configuration.address).allEvents().watch((error, event) => {
             if (!error) {
-                this.out.writeEvent(event);
+                console.log(this.out.writeEvent(event));
             } else {
                 console.error(error);
             }

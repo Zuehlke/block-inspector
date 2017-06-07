@@ -1,26 +1,27 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var BigNumber = require('bignumber.js');
+var ethunits = require('ethereum-units');
 class TextOutputWriter {
     writeTx(findings) {
         var output = "TRANSACTION: ";
         output += "from: " + findings.get("from").toString().substring(0, 6);
-        output += ", Wei: " + new BigNumber(findings.get("value")).toString(4);
+        output += ", Wei: " + ethunits.convert(findings.get("value"), 'wei', 'ether');
         output += ", " + findings.get("methodName");
         output += "(";
         var params = findings.get("params");
-        for (var i = 0; i < params.length; i++) {
-            // output += ", param[" + i + "]: " + params[i].name + "=" + params[i].value;
-            output += params[i].name + ": " + params[i].value;
-            if (i + 1 < params.length) {
-                output += ", ";
+        if (params) {
+            for (var i = 0; i < params.length; i++) {
+                output += params[i].name + ": " + params[i].value;
+                if (i + 1 < params.length) {
+                    output += ", ";
+                }
             }
         }
         output += ")";
         if (findings.get("outOfGas") == true) {
             output += ", OUT OF GAS!";
         }
-        console.log(output);
+        return output;
     }
     writeEvent(event) {
         var params = "";
@@ -31,18 +32,18 @@ class TextOutputWriter {
             params = params.substring(0, params.length - 2);
         }
         var args = JSON.stringify(event.args);
-        var out = "EVENT: " + event.event + "(" + params + ")";
-        console.log(out);
+        var output = "EVENT: " + event.event + "(" + params + ")";
+        return output;
     }
 }
 exports.TextOutputWriter = TextOutputWriter;
 class JsonOutputWriter {
     writeTx(findings) {
         var mapString = JSON.stringify([...findings]);
-        console.log(mapString);
+        return mapString;
     }
     writeEvent(event) {
-        console.log(JSON.stringify(event));
+        return JSON.stringify(event);
     }
 }
 exports.JsonOutputWriter = JsonOutputWriter;
