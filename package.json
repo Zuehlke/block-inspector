@@ -4,7 +4,7 @@
   "description": "Ethereum Smart Contract Observer. Shows all transaction to a Smart Contract. Shows all Events from a Smart Contract",
   "main": "index.ts",
   "bin": {
-    "block-inspector": "./dist/index"
+    "block-inspector": "./dist/index.js"
   },
   "repository": {
     "type": "git",
