@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var ethunits = require('ethereum-units');
+var ethjsUnit = require("ethjs-unit");
 class TextOutputWriter {
     writeTx(findings) {
         var output = "TRANSACTION: ";
         output += "from: " + findings.get("from").toString().substring(0, 6);
-        output += ", Wei: " + ethunits.convert(findings.get("value"), 'wei', 'ether');
+        output += ", Ether: " + ethjsUnit.fromWei(findings.get("value"), 'ether');
         output += ", " + findings.get("methodName");
         output += "(";
         var params = findings.get("params");
@@ -39,8 +39,7 @@ class TextOutputWriter {
 exports.TextOutputWriter = TextOutputWriter;
 class JsonOutputWriter {
     writeTx(findings) {
-        var mapString = JSON.stringify([...findings]);
-        return mapString;
+        return JSON.stringify([...findings]);
     }
     writeEvent(event) {
         return JSON.stringify(event);
