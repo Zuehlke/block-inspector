@@ -6,4 +6,6 @@ var cmd = new CommandLine.CommandLine();
 cmd.showHelp();
 var configuration = cmd.getConfiguration();
 
-new ContractObserve.ContractObserve(configuration).start();
+if (configuration.validate()) {
+    new ContractObserve.ContractObserve(configuration).start();
+}
