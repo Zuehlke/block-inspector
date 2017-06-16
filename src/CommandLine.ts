@@ -33,12 +33,8 @@ export class CommandLine {
       header: 'Examples',
       content: [
         {
-          desc: 'Inspect specific contract interaction. With method name enrichment',
-          example: 'npm run start --abiPath ./contract.abi --address 0x12..a3'
-        },
-        {
-          desc: 'Inspect all contract interactions. But no method name enrichment',
-          example: 'npm run start'
+          desc: 'Start block-inspector',
+          example: 'block-inspector --abiPath ./contract.abi --address 0x12..a3'
         }
       ]
     },
