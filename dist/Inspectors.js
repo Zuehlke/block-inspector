@@ -3,17 +3,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const abiDecoder = require('abi-decoder');
 let fs = require('fs');
 class CommonPropsInsp {
-    inspect(tx, txr, findings) {
+    inspect(tx, txr, block, findings) {
         findings.set("hash", tx.hash);
         findings.set("blockNumber", txr.blockNumber);
         findings.set("from", tx.from);
         findings.set("to", tx.to);
         findings.set("value", tx.value);
+        var date = new Date(block.timestamp);
+        var formatted = date.toUTCString(); //("yyyy.mm.dd-hh:MM:ss");
+        findings.set("timestamp", formatted);
     }
 }
 exports.CommonPropsInsp = CommonPropsInsp;
 class OutOfGasInsp {
-    inspect(tx, txr, findings) {
+    inspect(tx, txr, block, findings) {
         let gas = tx.gas;
         let gasUsed = txr.gasUsed;
         var outOfGas = gas == gasUsed;
@@ -24,13 +27,13 @@ class OutOfGasInsp {
 }
 exports.OutOfGasInsp = OutOfGasInsp;
 class ContractCreateInsp {
-    inspect(tx, txr, findings) {
+    inspect(tx, txr, block, findings) {
         findings.set("createContract", tx.to == null);
     }
 }
 exports.ContractCreateInsp = ContractCreateInsp;
 class MethodSignatureInsp {
-    inspect(tx, txr, findings) {
+    inspect(tx, txr, block, findings) {
         findings.set("methodSig", tx.input.substring(0, 10));
     }
 }
@@ -43,7 +46,7 @@ class MethodNameInsp {
         abiDecoder.addABI(abiObj);
         this.methodIdMap = abiDecoder.getMethodIDs();
     }
-    inspect(tx, txr, findings) {
+    inspect(tx, txr, block, findings) {
         var method = abiDecoder.decodeMethod(tx.input);
         if (!method) {
             findings.set("methodName", "Method Hash not found in the ABI!");

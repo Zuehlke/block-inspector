@@ -8,9 +8,9 @@ export interface OutputWriter {
 export class TextOutputWriter implements OutputWriter {
 
     writeTx(findings: Map<String, Object>): string {
-        var output = "TRANSACTION: ";
-
-        output += "from: " + findings.get("from").toString().substring(0, 6);
+        var output = "TX: ";
+        output += "time: " + findings.get("timestamp");
+        output += ", from: " + findings.get("from").toString().substring(0, 6);
 
         output += ", Ether: " + ethjsUnit.fromWei(findings.get("value"), 'ether');
         output += ", " + findings.get("methodName");

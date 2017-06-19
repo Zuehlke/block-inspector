@@ -55,7 +55,7 @@ export class ContractObserve {
             let txReceipt = this.web3.eth.getTransactionReceipt(txId);
 
             if (this.checkRightContract(txReceipt)) {
-                this.inspectors.forEach(inspt => { inspt.inspect(tx, txReceipt, findings) });
+                this.inspectors.forEach(inspt => { inspt.inspect(tx, txReceipt, block, findings) });
                 this.printOut(findings);
             }
         }
