@@ -30,6 +30,13 @@ npm run start
 
 # Debugging with Visual Studio Code: Press F5. 
 ```
+## Deplyoment
+```bash
+npm run test
+npm run build
+npm version patch
+npm publish
+```
 
 ## Notes
 - [Ethereum records](./docs/records.md)
