@@ -3,8 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var ethjsUnit = require("ethjs-unit");
 class TextOutputWriter {
     writeTx(findings) {
-        var output = "TRANSACTION: ";
-        output += "from: " + findings.get("from").toString().substring(0, 6);
+        var output = "TX: ";
+        output += "time: " + findings.get("timestamp");
+        output += ", from: " + findings.get("from").toString().substring(0, 6);
         output += ", Ether: " + ethjsUnit.fromWei(findings.get("value"), 'ether');
         output += ", " + findings.get("methodName");
         output += "(";

@@ -9,8 +9,8 @@ class CommonPropsInsp {
         findings.set("from", tx.from);
         findings.set("to", tx.to);
         findings.set("value", tx.value);
-        var date = new Date(block.timestamp);
-        var formatted = date.toUTCString(); //("yyyy.mm.dd-hh:MM:ss");
+        var date = new Date(block.timestamp * 1000);
+        var formatted = date.toISOString();
         findings.set("timestamp", formatted);
     }
 }
