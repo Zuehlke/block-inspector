@@ -1,6 +1,6 @@
 {
   "name": "block-inspector",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Ethereum Smart Contract Observer. Shows all transaction to a Smart Contract. Shows all Events from a Smart Contract",
   "main": "index.ts",
   "bin": {
