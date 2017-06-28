@@ -22,6 +22,6 @@ describe('OutputWriters tests', () => {
 
         let result = outputWriter.writeTx(findings);
 
-        expect(result).to.equal("TX: time: 2017-06-01T08:49:57.000Z, from: 0x4c51, Ether: 0.01, addEntry(key: 1, data: 0x6f6b000000000000000000000000000000000000000000000000000000000000)");
+        expect(result).to.equal("TX: time: 2017-06-01T08:49:57.000Z, from: 0x4c..c5, Ether: 0.01, addEntry(key: 1, data: 0x6f6b000000000000000000000000000000000000000000000000000000000000)");
     });
 });
