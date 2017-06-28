@@ -13,6 +13,13 @@ In real time..
 ## Installation
 - NodeJS > v6.10
 
+### Global installation
+```bash
+npm install -g block-inspector
+block-inspector --abiPath contract.abi --address 0x123..
+```
+
+### Development
 ```bash
 
 # At the first time
