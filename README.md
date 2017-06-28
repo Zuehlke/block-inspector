@@ -1,12 +1,17 @@
 # Block Inspector 
 
-**-- Work in progress --**
+Ethereum Block Inspector. Inspects a specific smart contract in real time. 
 
-A command line tool for:
-* Inspecting all transactions to your Ethereum smart contract
-* Disassembling the method names and parameters
-In real time.. 
+Features:
+- Shows all transactions to the contract 
+- Listening to all events
+- "Out of gas" detection
 
+Demo video on youtube:
+
+[![Link to Youtube](https://img.youtube.com/vi/35cLpa20-Uw/0.jpg)](https://www.youtube.com/watch?v=35cLpa20-Uw)
+
+Architectural overview:
 
 ![Overview](./docs/block-inspector-light.jpg)
 
