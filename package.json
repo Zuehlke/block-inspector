@@ -25,8 +25,9 @@
     "posttest": "rm -Rf ./dist/src",
     "build": "rm -Rf ./dist/src && tsc -p tsconfig-for-debug.json",
     "start": "tsc -p tsconfig-for-debug.json && rm -Rf ./dist/src && node dist/index.js",
-    "startWithParam": "tsc -p tsconfig-for-debug.json && rm -Rf ./dist/src && node dist/index.js --abiPath ./bin/solidity/DemoContract.abi --address 0xb272fef5188615285a0ad5897c7caf14919590fc",
-    "startWithParam2": "tsc -p tsconfig-for-debug.json && rm -Rf ./dist/src && node dist/index.js --abiPath /Users/kasimir/Documents/blockchain/hotel-showcase/bin/contracts/HotelShowCaseProxy.abi --address 0xb57646c814dab47f4ca0bbae7c86468e4c5aa742"
+    "startWithParam": "tsc -p tsconfig-for-debug.json && rm -Rf ./dist/src && node dist/index.js --abiPath ../project-notes/bin/ethereum-rinkeby/KSTToken.abi --address 0x9FdAef3016124c515AA07b234086e28B53F8EE75",
+    "startWithParam2": "tsc -p tsconfig-for-debug.json && rm -Rf ./dist/src && node dist/index.js --abiPath ./0x.abi.json --address 0x1D16EF40FAC01cEC8aDAC2AC49427b9384192C05"
+  
   },
   "devDependencies": {
     "@types/body-parser": "^1.16.3",

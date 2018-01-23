@@ -68,7 +68,9 @@ export class ContractObserve {
     private checkRightContract(txr: any): boolean {
         let address: string;
 
-        if (txr.to) {
+        if (txr == null) {
+            return false;
+        } else if (txr.to) {
             address = txr.to;
         } else {
             // Detect create contract Transaction. 

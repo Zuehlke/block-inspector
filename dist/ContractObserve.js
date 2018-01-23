@@ -53,7 +53,10 @@ class ContractObserve {
     }
     checkRightContract(txr) {
         let address;
-        if (txr.to) {
+        if (txr == null) {
+            return false;
+        }
+        else if (txr.to) {
             address = txr.to;
         }
         else {
